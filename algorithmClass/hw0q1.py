@@ -5,6 +5,7 @@ def main():
     print(secondLargest([20,19,18,17,16,15,14,13,12,11,10]))
 
 def secondLargest(a):
+    """"""
     largest = a[0]
     secondLargest = 0
     for i in range(2,len(a),1):
