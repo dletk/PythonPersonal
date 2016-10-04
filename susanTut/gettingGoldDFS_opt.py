@@ -80,7 +80,6 @@ def main():
                 newNode.set_visited()
                 mapNodesByLine[line].append(newNode)
 
-
     dfs_recur(posP)
     print(count)
 
@@ -97,7 +96,6 @@ def dfs_recur(node):
         node.set_visited()
 
     if node.type == "G":
-        # print(str(node.x) + str(node.y))
         count += 1
 
     if 1 <= node.y - 1 < len(mapNodesByLine[node.x]) - 1 and mapNodesByLine[node.x][node.y - 1].type == "T":
