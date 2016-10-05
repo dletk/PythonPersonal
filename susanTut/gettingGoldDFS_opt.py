@@ -50,6 +50,7 @@ def main():
     global posG
     global posT
     # Map with key is safe position, value is list of its neighbor
+
     for line in range(h):
         listLine.append(input())
         currLine = listLine[line]
