@@ -8,13 +8,14 @@ class Node(object):
         # the length of way to go the that node, and the number of items in the list is that much of same length way.
         # Example: 1 to 2 have 5 ways, 3 ways with length 20 and the rest is higher than 20, so there will be 3 elements with value 20 in
         # the list at index 2 of nodeTo
-        self.nodeTo = [[] for x in range(numNode)]
+        self.nodeTo = [[0] for x in range(numNode)]
 
 
 
 listNode = []
 numNode = 0
 numWayFromNode = [0 for x in range(10000)]
+listLength =[]
 
 def getInput():
     global listNode, numNode
@@ -31,26 +32,48 @@ def getInput():
             pass
         else:
             listNode[in1].nodeName = int(in1)
-            if listNode[in1].nodeTo[in2] == [] or listNode[in1].nodeTo[in2][0] > in3:
+            if listNode[in1].nodeTo[in2] == [0] or listNode[in1].nodeTo[in2][0] > in3:
                 listNode[in1].nodeTo[in2] = []
                 listNode[in1].nodeTo[in2].append(in3)
             elif listNode[in1].nodeTo[in2][0] == in3:
                 listNode[in1].nodeTo[in2].append(in3)
 
+            listNode[in2].nodeName = int(in2)
+            if listNode[in2].nodeTo[in1] == [0] or listNode[in2].nodeTo[in1][0] > in3:
+                listNode[in2].nodeTo[in1] = []
+                listNode[in2].nodeTo[in1].append(in3)
+            elif listNode[in2].nodeTo[in1][0] == in3:
+                listNode[in2].nodeTo[in1].append(in3)
+
+
 def findSimilarTracks():
     return None
 
-
-def findingRoute():
-    for node in listNode:
-        for listnodeto in node.nodeTo and listnodeto != []:
-
+def goAlongRoute(node):
+    global numNode
+    if node.nodeName>=numNode-1:
+        return 0
+    index = node.nodeName+1
+    while node.nodeTo[index] == [0] and index<numNode-1:
+        index += 1
+    return len(node.nodeTo[index])*node.nodeTo[index][0]+goAlongRoute(listNode[index])
 
 def traversal(node):
-    length = 0
-    for i in range(node.nodName+1,len(listNode)):
-        if node.nodeTo[i] != []:
-            length += length+len(node.nodeTo)*node.nodeTo[0]
+    global listLength, numNode
+
+    for i in range(1,len(listNode)):
+        length = 0
+        if node.nodeTo[i] != [0]:
+            length += len(node.nodeTo[i])*node.nodeTo[i][0]+goAlongRoute(listNode[i])
+        if length!=0:
+            listLength.append(length)
+
+    minLength = min(listLength)
+    result = listLength.count(minLength)*minLength*2
+
+    return result
+
+
 
 if __name__ == '__main__':
     getInput()
@@ -58,3 +81,5 @@ if __name__ == '__main__':
     for node in listNode:
         print(node.nodeTo)
 
+    print(traversal(listNode[0]))
+    print(listLength)
