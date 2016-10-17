@@ -26,4 +26,5 @@ if __name__ == '__main__':
     assert longestPrefix(["abcdef", "defbca"]) == ""
     assert longestPrefix([]) == ""
     assert longestPrefix(["","abcdef","abcdefa","abcdefac"]) == ""
+    assert longestPrefix(["abcdef","abcdef","abcdef","abcdef","abcdef","abcdef","abcdef"]) == "abcdef"
     print("All tests passed!!!")
