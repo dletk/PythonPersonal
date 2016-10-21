@@ -1,68 +1,55 @@
 # Idea: Using a while loop loop through the input list until the input list is empty. Eveytime in the while loop, calculate all possible case
 # of event that 1 single server can handle, then add up the number of server, eliminate all the event that server can handle in the list, and move on.
+import time
 
 listRequest = []
 capacity = 0
-
+numRequest = 0
+checkList = []
 
 def getinput():
-    global listRequest, capacity
+    global listRequest, capacity, numRequest, checkList
 
+    # begin = time.time()
     numRequestAndCapacity = input().split()
     numRequest = int(numRequestAndCapacity[0])
     capacity = int(numRequestAndCapacity[1])
     for i in range(numRequest):
         listRequest.append(int(input()))
-
+        checkList.append(-1)
+    # print(time.time()-begin)
 
 def checkserver():
-    global listRequest, capacity
+    global listRequest, capacity, checkList
+    firstSkip = 0
+    for server in range(capacity):
+        lastIndex = 0
+        if listRequest != checkList:
+            limitTime = listRequest[firstSkip]
 
-    listRemove = []
-    indexNextStart = 0
-    limitTime = listRequest[indexNextStart]+1000
-    serverCapacity = 0
-
-    for request in listRequest:
-        print(request)
-        print(indexNextStart)
-        print(listRemove)
-        if request >= limitTime:
-            if listRemove[indexNextStart]+1000 <= request:
-                if listRemove[indexNextStart]+1000 < limitTime:
-                    limitTime = listRemove[indexNextStart]+1000
-                serverCapacity -= 1
-                indexNextStart += 1
-
-        if request <= limitTime and serverCapacity < capacity:
-            listRemove.append(request)
-            serverCapacity += 1
-
-        # elif request <= limitTime and serverCapacity == capacity:
-        #     if listRemove[indexNextStart]+1000 == limitTime:
-        #         pass
-        #     else:
-        #         limitTime = listRemove[indexNextStart] + 1000
-        #         indexNextStart += 1
-        #         listRemove.append(request)
-        # elif request >= limitTime and serverCapacity == capacity:
-        #     if listRemove[indexNextStart]+1000 >= request:
-        #         limitTime = listRemove[indexNextStart]+1000
-        #         indexNextStart += 1
-        #         listRemove.append(request)
-
-    print(listRemove)
-
-    for request in listRemove:
-        listRequest.remove(request)
-
+            for i in range(lastIndex,len(listRequest)):
+                if listRequest[i] >= limitTime:
+                    limitTime = listRequest[i]+1000
+                    listRequest[i] = -1
+                    lastIndex = i
+                if listRequest[firstSkip] == -1:
+                    firstSkip = i+1
+        else:
+            break
+    return lastIndex
 
 if __name__ == '__main__':
+    # begin = time.time()
     getinput()
     numServer = 0
 
-    while listRequest!=[]:
+    while listRequest != checkList:
+        # print(listRequest)
         checkserver()
         numServer += 1
 
+    # for i in range(100000):
+    #     print(i)
+
     print(numServer)
+    # print(time.time()-begin)
