@@ -3,7 +3,7 @@ def inputProcess(file):
     aFile = open(file, "r")
     listWord = []
     for line in aFile:
-        listWord.append(aFile.readline().strip())
+        listWord.append(line.strip())
     aFile.close()
 
     dictWords = {}
@@ -74,12 +74,12 @@ def backtrace(parent, start, end):
 
 if __name__ == '__main__':
     dictWords = inputProcess("fourletterwords.txt")
-    # print(dictWords["LEUD"])
+    # print(dictWords["LOWS"])
     # print(dictWords["COAT"])
     # # print(dictWords["CHAT"])
     # print(dictWords["CHAP"])
     # # print(dictWords["CHIP"])
-    # print(dictWords["SHIP"])
+    # print(dictWords)
 
 
-    print(transform("DEAD","LOUD",dictWords))
+    print(transform("YEPS","ZYGA",dictWords))
