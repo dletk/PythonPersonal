@@ -1,18 +1,18 @@
+import time
+
 def inputProcess(file):
 
     aFile = open(file, "r")
-    listWord = []
+    setWord = set([])
     for line in aFile:
-        listWord.append(line.strip())
+        setWord.add(line.strip())
     aFile.close()
 
     dictWords = {}
-    for word in listWord:
-        dictWords[word] = []
-        for wordCompare in listWord:
-            if isLinked(word, wordCompare):
-                dictWords[word].append(wordCompare)
+    for word in setWord:
+        dictWords[word] = randomnizeWord(word, setWord)
     return dictWords
+
 
 def isLinked(word1, word2):
     count = 0
@@ -26,51 +26,60 @@ def isLinked(word1, word2):
     else:
         return False
 
+
+def randomnizeWord(word, setWord):
+    listWord = []
+    for index in range(len(word)):
+        for replace in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+            newWord = word[:index]+replace+word[index+1:]
+            if newWord in setWord and newWord!=word:
+                listWord.append(newWord)
+    return listWord
+
+
 def transform(begin, end, dictWords):
     visited = []
     return transformWordBFS(begin, end, dictWords, visited)
 
+
 def transformWordBFS(begin,end, dictWords, visited):
+    begin = begin.upper()
+    end = end.upper()
+    if begin not in dictWords:
+        print("The starting word is not in the dictionary")
+        return None
+    elif end not in dictWords:
+        print("The ending word is not in the dictionary")
+        return None
     visited.append(begin)
     aQueue = [begin]
     parent = {}
-    # potential_ans = [begin]
     while aQueue:
         for word in dictWords[aQueue[0]]:
-            if word not in visited:
+            if word not in visited and similarity(word,end):
                 visited.append(word)
                 aQueue.append(word)
                 parent[word] = aQueue[0]
                 # potential_ans.append(word)
                 if word==end:
-                    # return potential_ans
-                    return backtrace(parent,begin,end)
-                    # return True
+                    return findingRoute(parent,begin,end)
         aQueue = aQueue[1:]
-        # potential_ans = [begin]
-
-def transformDFS(begin, end, dictWords, visited, potential_ans):
-    visited.append(begin)
-    potential = [begin]
-    for word in dictWords[begin]:
-        if word not in visited:
-            if word==end:
-                return potential_ans+potential
-            else:
-                potentialAns = transformDFS(word,end,dictWords,visited,potential)
-                if potentialAns[len(potentialAns)-1]==end:
-                    return potential_ans+potentialAns
-                else:
-                    return potentialAns
 
 
-def backtrace(parent, start, end):
+def findingRoute(parent, start, end):
     path = [end]
     # print(parent)
     while path[-1] != start:
         path.append(parent[path[-1]])
     path.reverse()
     return path
+
+
+def similarity(word1, word2):
+    for i in range(4):
+        if word1[i]==word2[i]:
+            return True
+    return False
 
 if __name__ == '__main__':
     dictWords = inputProcess("fourletterwords.txt")
@@ -80,7 +89,6 @@ if __name__ == '__main__':
     # print(dictWords["CHAP"])
     # # print(dictWords["CHIP"])
     # print(dictWords)
-
     begin = time.time()
-    print(transform("BOAT","SHIP",dictWords))
+    print(transform("boat","ship",dictWords))
     print(time.time()-begin)
