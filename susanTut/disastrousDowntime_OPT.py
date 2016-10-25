@@ -26,13 +26,15 @@ def checkserver(request):
         if server == [] or len(server) < capacity:
             server.append(request)
             added = True
-            break
         elif len(server) == capacity:
             for i in range(len(server)):
                 if server[i]+1000 <= request:
                     server[i] = request
                     added = True
                     break
+        if added:
+            break
+
     if not added:
         listServer.append([request])
     # print(listServer)
