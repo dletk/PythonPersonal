@@ -34,20 +34,15 @@ def transformWordBFS(begin,end, dictWords, visited):
     visited.append(begin)
     aQueue = [begin]
     parent = {}
-    # potential_ans = [begin]
     while aQueue:
         for word in dictWords[aQueue[0]]:
             if word not in visited:
                 visited.append(word)
                 aQueue.append(word)
                 parent[word] = aQueue[0]
-                # potential_ans.append(word)
                 if word==end:
-                    # return potential_ans
                     return backtrace(parent,begin,end)
-                    # return True
         aQueue = aQueue[1:]
-        # potential_ans = [begin]
 
 def transformDFS(begin, end, dictWords, visited, potential_ans):
     visited.append(begin)
@@ -66,7 +61,6 @@ def transformDFS(begin, end, dictWords, visited, potential_ans):
 
 def backtrace(parent, start, end):
     path = [end]
-    # print(parent)
     while path[-1] != start:
         path.append(parent[path[-1]])
     path.reverse()
@@ -81,6 +75,4 @@ if __name__ == '__main__':
     # # print(dictWords["CHIP"])
     # print(dictWords)
 
-    begin = time.time()
     print(transform("BOAT","SHIP",dictWords))
-    print(time.time()-begin)
