@@ -51,14 +51,14 @@ def inputProcess(file):
     """
 
     aFile = open(file, "r")
-    setWord = set([])
+    setWord = set([])  # Set to hold all the words in the input file
     for line in aFile:
         setWord.add(line.strip())
     aFile.close()
 
-    dictWords = {}
+    dictWords = {}  # Create the dictionary to hold the link between all words
     for word in setWord:
-        dictWords[word] = randomnizeWord(word, setWord)
+        dictWords[word] = randomnizeWord(word, setWord) # Fill the list value of the key word with all words that is linked to it
     return dictWords
 
 
@@ -73,8 +73,8 @@ def randomnizeWord(word, setWord):
     listWord = []
     for index in range(len(word)):
         for replace in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
-            newWord = word[:index]+replace+word[index+1:]
-            if newWord in setWord and newWord!=word:
+            newWord = word[:index]+replace+word[index+1:]  # Create 1-letter-different word from the input word
+            if newWord in setWord and newWord!=word:  # Check if the created word is in the the setwords and not the original one
                 listWord.append(newWord)
     return listWord
 
@@ -127,10 +127,10 @@ def transformWordBFS(begin,end, dictWords, visited):
 def findingRoute(parent, start, end):
     """
     Finding the entire route from the ending word back to the starting word.
-    :param parent: the parent
-    :param start:
-    :param end:
-    :return:
+    :param parent: the parent dictionaries of all words
+    :param start: the starting word from input
+    :param end: the ending word need to transfer to
+    :return: The route in the graph to go from start to end.
     """
     path = [end]
     while path[-1] != start:
