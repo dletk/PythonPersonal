@@ -1,16 +1,16 @@
 def mergeSort(anArray):
 
-    if len(anArray)>0:
+    if len(anArray) > 1:
         half = len(anArray)//2
 
         left = mergeSort(anArray[:half])
         right = mergeSort(anArray[half:])
-
         result = merge(left, right, anArray)
 
         return result
 
     return anArray
+
 
 def merge(left, right, anArray):
     size_l = len(left)
@@ -41,5 +41,6 @@ def merge(left, right, anArray):
 
 
 if __name__ == '__main__':
+    print(mergeSort([1,2,3]))
     print(mergeSort([8, 2, 7, 3, 6, 4, 5, 1]))
     print(mergeSort([12, 43, 54, 23, 54, 234, 654, 234, 78, 232, 5425, 1, 34, 6, 2, 7]))
