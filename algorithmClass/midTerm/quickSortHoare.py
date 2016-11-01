@@ -17,7 +17,6 @@ def hoarePartition(anArray):
     anArray[j] = anArray[0]
     anArray[0] = temp_ele
 
-
     return j
 
 
