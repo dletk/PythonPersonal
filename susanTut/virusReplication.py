@@ -9,7 +9,7 @@ def process(input_DNAs):
     infected_DNA = input_DNAs[1]
     front_diff = -1
     end_diff = -1
-    for front, end, end_original in zip(range(len(infected_DNA)), range(len(infected_DNA)-1,-1,-1), range(len(original_DNA)-1,-1,-1)):
+    for front, end, end_original, front_original in zip(range(len(infected_DNA)), range(len(infected_DNA)-1,-1,-1), range(len(original_DNA)-1,-1,-1), range(len(original_DNA))):
         # print(front)
         # print(end)
         # print()
@@ -20,6 +20,7 @@ def process(input_DNAs):
                 end_diff = end
             if front_diff != -1 and end_diff != -1:
                 break
+
     print((front_diff,end_diff))
     if front_diff == -1 and end_diff == -1:
         if len(original_DNA) == len(infected_DNA):
