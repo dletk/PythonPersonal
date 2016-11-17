@@ -1,7 +1,7 @@
 import time
 
 def main():
-    file = open("test.in", "r")
+    file = open("test.txt", "r")
     rawInptList = file.readlines()
     file.close()
     
