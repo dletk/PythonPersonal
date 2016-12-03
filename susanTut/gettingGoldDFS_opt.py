@@ -28,6 +28,7 @@ class Node(object):
         self.type = type
 
 
+
 posSafe = []
 posG = []
 posT = []
