@@ -72,8 +72,8 @@ def main():
 
     # Once you get the above benchmark working
     # uncomment the following to perform a more robust benchmark.
-    # benchmark(quakes, 'random_questions.100.txt')
-    # benchmark(quakes, 'random_questions.1000.txt')
+    benchmark(quakes, 'random_questions.100.txt')
+    benchmark(quakes, 'random_questions.1000.txt')
 
 
 def init_earthquake_analyzer(quakes):
