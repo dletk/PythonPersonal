@@ -78,7 +78,7 @@ def simulation(numTransaction ,capital, initialAmount, marketProfit, expectedPro
 
 
 if __name__ == '__main__':
-    print(calculateRates(2, 0.89, 0.3))
+    print(calculateRates(2, 0.94, 0.3))
     countLost = 0
     listAmount = []
     for i in range(100):
