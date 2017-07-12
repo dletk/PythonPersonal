@@ -229,7 +229,7 @@ def solve_sudoku():
     domain_for_cell = {}
     board = {}
     read_input(domain_for_cell, board)
-    generate_domain_for_cell(domain_for_cell, board)git
+    generate_domain_for_cell(domain_for_cell, board)
     # Make a deep copy of board and domain_for_cell for each of the method
     board_bst = copy.deepcopy(board)
     domain_for_cell_bst = copy.deepcopy(domain_for_cell)
