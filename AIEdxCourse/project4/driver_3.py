@@ -1,8 +1,10 @@
 import sys
 import queue
+import copy
 
 # Constant
 LIST_ROW = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
+
 
 def read_input(domain_for_cell, board):
     input_string = sys.argv[1]
@@ -163,16 +165,84 @@ def solved_by_ac3(board, domain_for_cell):
         return ""
 
 
-def main():
+def back_tracing_search(board, domain_for_cell):
+    return backtrack(board, domain_for_cell)
+
+
+def backtrack(board, domain_for_cell):
+    if is_completed(board):
+        return print_assignment(board)
+    else:
+        cell = select_unassigned_variable(board, domain_for_cell)
+    for value in domain_for_cell[cell]:
+        board[cell] = value
+        if is_consistent(cell, board):
+            result = backtrack(board, domain_for_cell)
+            if result != "":
+                return result
+        board[cell] = 0
+    return ""
+
+
+def is_consistent(cell, board):
+    neighbors = find_neighbor(cell)
+    for neighbor in neighbors:
+        if board[neighbor] == board[cell]:
+            return False
+    return True
+
+
+def select_unassigned_variable(board, domain_for_cell):
+    min_size_domain = 10
+    next_cell = ""
+    for cell, domain in domain_for_cell.items():
+        # If board[cell] != 0, it means that cell is assigned already.
+        if len(domain) < min_size_domain and board[cell] == 0:
+            next_cell = cell
+            min_size_domain = len(domain)
+    return next_cell
+
+
+def is_completed(board):
+    for row in LIST_ROW:
+        for col in range(1, 10, 1):
+            if board[row+str(col)] == 0:
+                return False
+    return True
+
+
+def print_assignment(board):
+    output_string = ""
+    for row in LIST_ROW:
+        for col in range(1, 10, 1):
+            output_string += str(board[row+str(col)])
+    return output_string
+
+
+def print_to_file(output_string):
+    file_out = open("output.txt", "w")
+    file_out.write(output_string)
+    file_out.close()
+
+
+def solve_sudoku():
     domain_for_cell = {}
     board = {}
     read_input(domain_for_cell, board)
-    generate_domain_for_cell(domain_for_cell, board)
-    # print(domain_for_cell)
-    # print(ac3(board, domain_for_cell))
-    # print(domain_for_cell)
-    # print(find_neighbor("A3"))
-    print(solved_by_ac3(board, domain_for_cell))
+    generate_domain_for_cell(domain_for_cell, board)git
+    # Make a deep copy of board and domain_for_cell for each of the method
+    board_bst = copy.deepcopy(board)
+    domain_for_cell_bst = copy.deepcopy(domain_for_cell)
+    output_ac3 = solved_by_ac3(board, domain_for_cell)
+    if output_ac3 != "":
+        # print(output_ac3 + " AC3")
+        return output_ac3 + " AC3"
+    else:
+        # print(back_tracing_search(board_bst, domain_for_cell_bst) + " BTS")
+        return back_tracing_search(board_bst, domain_for_cell_bst) + " BTS"
 
+
+def main():
+    print_to_file(solve_sudoku())
 
 main()
