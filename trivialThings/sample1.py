@@ -1,0 +1,2 @@
+stromg = "sasd"
+stromg.split()
