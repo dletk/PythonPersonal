@@ -92,7 +92,7 @@ class PlayerAI(BaseAI):
         largestPositionScore = self.largestTilePositionScore(grid)
         smoothness = self.smoothness(grid)
 
-        return monotonicity + emptyValue*2.5 + grid.getMaxTile() + 0.1*smoothness
+        return 2*monotonicity + emptyValue*2.5 + grid.getMaxTile() + 0.1*smoothness
 
     def monotonicity(self, grid):
         # Consider the monotonicity in all four direction

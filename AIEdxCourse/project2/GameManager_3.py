@@ -5,6 +5,9 @@ from Displayer_3 import Displayer
 from random import randint
 import time
 
+from keras.models import load_model
+import numpy as np
+
 defaultInitialTiles = 2
 defaultProbability = 0.9
 
@@ -21,6 +24,8 @@ actionDic = {
 timeLimit = 0.2
 allowance = 0.05
 
+# Array keeping the all the move of the current game
+
 
 class GameManager:
     def __init__(self, size=4):
@@ -32,6 +37,9 @@ class GameManager:
         self.playerAI = None
         self.displayer = None
         self.over = False
+        # Load the DNN model
+        self.model_NN = load_model("all_2048_8000games.h5")
+        # self.result_file = open("result.txt", "a")
 
     def setComputerAI(self, computerAI):
         self.computerAI = computerAI
@@ -71,7 +79,16 @@ class GameManager:
 
             if turn == PLAYER_TURN:
                 print("Player's Turn:", end="")
-                move = self.playerAI.getMove(gridCopy)
+                # Using NN to make move instead
+                # move = self.playerAI.getMove(gridCopy)
+
+                list_proba = self.model_NN.predict(self.generateCurrentBoard1D(self.grid.map))[0].tolist()
+
+                move = list_proba.index(max(list_proba))
+                while not self.grid.canMove([move]):
+                    # print(list_proba)
+                    list_proba[move] = -1
+                    move = list_proba.index(max(list_proba))
                 print(actionDic[move])
 
                 # Validate Move
@@ -103,14 +120,16 @@ class GameManager:
             """
             Comment this out if do not want to have the display
             """
-            # if not self.over:
-            #     self.displayer.display(self.grid)
+            if not self.over:
+                self.displayer.display(self.grid)
 
             # Exceeding the Time Allotted for Any Turn Terminates the Game
             self.updateAlarm(time.clock())
 
             turn = 1 - turn
         print(maxTile)
+        # self.result_file.write(str(maxTile)+"\n")
+        # self.result_file.close()
 
     def isGameOver(self):
         return not self.grid.canMove()
@@ -141,8 +160,14 @@ class GameManager:
         current_board_and_move += str(move) + "\n"
         return current_board_and_move
 
+    def generateCurrentBoard1D(self, map):
+        currentBoard = []
+        for row in map:
+            for cell in row:
+                currentBoard.append(cell)
+        return np.array([currentBoard])
 
-def main():
+def runAGame():
     gameManager = GameManager()
     playerAI = PlayerAI()
     computerAI = ComputerAI()
@@ -156,4 +181,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    for i in range(100):
+        runAGame()
