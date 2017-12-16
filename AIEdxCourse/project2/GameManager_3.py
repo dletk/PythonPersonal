@@ -39,7 +39,7 @@ class GameManager:
         self.over = False
         # Load the DNN model
         self.model_NN = load_model("all_2048_8000games.h5")
-        # self.result_file = open("result.txt", "a")
+        self.result_file = open("result.txt", "a")
 
     def setComputerAI(self, computerAI):
         self.computerAI = computerAI
@@ -120,16 +120,16 @@ class GameManager:
             """
             Comment this out if do not want to have the display
             """
-            if not self.over:
-                self.displayer.display(self.grid)
+            # if not self.over:
+            #     self.displayer.display(self.grid)
 
             # Exceeding the Time Allotted for Any Turn Terminates the Game
             self.updateAlarm(time.clock())
 
             turn = 1 - turn
         print(maxTile)
-        # self.result_file.write(str(maxTile)+"\n")
-        # self.result_file.close()
+        self.result_file.write(str(maxTile)+"\n")
+        self.result_file.close()
 
     def isGameOver(self):
         return not self.grid.canMove()
@@ -181,5 +181,5 @@ def runAGame():
 
 
 if __name__ == '__main__':
-    for i in range(100):
+    for i in range(5):
         runAGame()
