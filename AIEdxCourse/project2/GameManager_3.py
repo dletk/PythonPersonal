@@ -5,8 +5,8 @@ from Displayer_3 import Displayer
 from random import randint
 import time
 
-from keras.models import load_model
-import numpy as np
+# from keras.models import load_model
+# import numpy as np
 
 defaultInitialTiles = 2
 defaultProbability = 0.9
@@ -38,8 +38,8 @@ class GameManager:
         self.displayer = None
         self.over = False
         # Load the DNN model
-        self.model_NN = load_model("all_2048_8000games.h5")
-        self.result_file = open("result.txt", "a")
+        # self.model_NN = load_model("all_2048_8000games.h5")
+        self.result_file = open("resultRandom.txt", "a")
 
     def setComputerAI(self, computerAI):
         self.computerAI = computerAI
@@ -82,13 +82,16 @@ class GameManager:
                 # Using NN to make move instead
                 # move = self.playerAI.getMove(gridCopy)
 
-                list_proba = self.model_NN.predict(self.generateCurrentBoard1D(self.grid.map))[0].tolist()
+                # list_proba = self.model_NN.predict(self.generateCurrentBoard1D(self.grid.map))[0].tolist()
 
-                move = list_proba.index(max(list_proba))
+                # move = list_proba.index(max(list_proba))
+                availableMoves = self.grid.getAvailableMoves()
+                move = availableMoves[randint(0, len(availableMoves)-1)]
                 while not self.grid.canMove([move]):
                     # print(list_proba)
-                    list_proba[move] = -1
-                    move = list_proba.index(max(list_proba))
+                    # list_proba[move] = -1
+                    # move = list_proba.index(max(list_proba))
+                    randint(0,3)
                 print(actionDic[move])
 
                 # Validate Move
