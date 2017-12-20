@@ -5,8 +5,8 @@ from Displayer_3 import Displayer
 from random import randint
 import time
 
-# from keras.models import load_model
-# import numpy as np
+from keras.models import load_model
+import numpy as np
 
 defaultInitialTiles = 2
 defaultProbability = 0.9
